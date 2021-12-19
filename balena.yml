@@ -7,11 +7,11 @@ assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/dgaiero/balena_max13856'
+      url: 'https://github.com/dgaiero/balena_MAX13856'
   logo:
     type: blob.asset
     data:
-      url: 'https://raw.githubusercontent.com/balenablocks/sensor/master/logo.png'
+      url: 'https://raw.githubusercontent.com/dgaiero/balena_MAX13856/main/logo.png'
 data:
   defaultDeviceType: raspberrypi3
   supportedDeviceTypes:

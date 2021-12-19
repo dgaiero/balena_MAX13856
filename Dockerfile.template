@@ -10,7 +10,7 @@ RUN install_packages \
 
 WORKDIR /usr/src/app
 
-RUN pip3 install i2c-tools smbus2 setuptools RPi.GPIO adafruit-blinka adafruit-circuitpython-max31856 paho-mqtt requests
+RUN pip3 install i2c-tools smbus2 spidev setuptools RPi.GPIO adafruit-blinka adafruit-circuitpython-max31856 paho-mqtt requests
 
 COPY *.py ./
 
