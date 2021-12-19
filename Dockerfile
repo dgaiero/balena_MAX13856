@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_ARCH%%-debian-python
+FROM balenalib/aarch64-debian-python
 
 RUN install_packages \
     nano \
