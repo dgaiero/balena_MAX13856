@@ -9,12 +9,11 @@ RUN install_packages \
     libiio-utils \
     python-dev \
     python3-dev \
-    python3-rpi.gpio \
     python3-libiio
 
 WORKDIR /usr/src/app
 RUN export CFLAGS=-fcommon
-RUN pip3 install smbus2 spidev setuptools adafruit-blinka adafruit-circuitpython-max31856 paho-mqtt requests
+RUN pip3 install smbus2 spidev rpi.gpio setuptools adafruit-blinka adafruit-circuitpython-max31856 paho-mqtt requests
 
 COPY *.py ./
 
