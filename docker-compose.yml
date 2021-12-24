@@ -3,7 +3,7 @@ services:
   sensor:
     build: .
     environment:
-      - 'MAX13856_CS_PINS={["D5","D13"]}'
+      - 'MAX13856_CS_PINS=["D5","D13"]'
     privileged: true
     labels:
       io.balena.features.kernel-modules: '1'

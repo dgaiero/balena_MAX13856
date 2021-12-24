@@ -1,0 +1,8 @@
+smbus2
+spidev 
+# RPi.GPIO
+setuptools
+adafruit-blinka
+adafruit-circuitpython-max31856
+paho-mqtt
+requests

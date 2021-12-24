@@ -1,19 +1,24 @@
-FROM balenalib/aarch64-debian-python
+FROM balenalib/raspberrypi4-64-debian-python:3.9-build as build
+
+# RUN install_packages \
+#     build-essential \
+#     gcc \
+#     i2c-tools \
+#     kmod \
+#     libiio0 \
+#     libiio-utils \
+#     python-dev \
+#     python3-dev \
+#     python3-libiio
 
 RUN install_packages \
-    build-essential \
-    gcc \
-    i2c-tools \
-    kmod \
-    libiio0 \
-    libiio-utils \
-    python-dev \
     python3-dev \
-    python3-libiio
+    python3-rpi.gpio \
+    i2c-tools
 
 WORKDIR /usr/src/app
-RUN export CFLAGS=-fcommon
-RUN pip3 install smbus2 spidev rpi.gpio setuptools adafruit-blinka adafruit-circuitpython-max31856 paho-mqtt requests
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY *.py ./
 
