@@ -9,6 +9,7 @@ import paho.mqtt.client as mqtt
 import socket
 import threading
 import requests
+from dotenv import load_dotenv
 
 import board
 import digitalio
@@ -32,11 +33,13 @@ class Sensors:
 
     def sample(self):
         reading = {
-            'short_uuid': os.environ.get('RESIN_DEVICE_UUID')[:7],
+            'short_uuid': os.environ.get('BALENA_DEVICE_UUID')[:7],
             'sensors': []
         }
-        for id, sensor in enumerate(self.sensor_pins):
+        for id, sensor in self.sensors:
             temp = sensor.temperature
+            if os.getenv('TEMP_UNIT', 'C') == 'F':
+                temp = (temp * (9/5)) + 32
             sensor_data = {'sensor_id': id, 'temperature': temp}
             reading['sensors'].append(sensor_data)
         return reading
@@ -84,7 +87,7 @@ def background_web(server_socket):
 
 def main():
     mqtt_address = os.getenv('MQTT_ADDRESS', 'none')
-    use_httpserver = os.getenv('ALWAYS_USE_HTTPSERVER', 0)
+    use_httpserver = os.getenv('ALWAYS_USE_HTTPSERVER', 'False').lower() in ('true', '1', 't')
     publish_interval = os.getenv('MQTT_PUB_INTERVAL', '8')
     publish_topic = os.getenv('MQTT_PUB_TOPIC', 'sensors')
     try:
@@ -93,10 +96,10 @@ def main():
         print("Error converting MQTT_PUB_INTERVAL: Must be integer or float! Using default.")
         interval = 8
         
-    if use_httpserver == "1":
-        enable_httpserver = "True"
+    if use_httpserver == True:
+        enable_httpserver = True
     else:
-        enable_httpserver = "False"
+        enable_httpserver = False
     pass
 
     if mqtt_detect() and mqtt_address == "none":
@@ -112,14 +115,14 @@ def main():
         except Exception as e:
             print("Error connecting to mqtt. ({0})".format(str(e)))
             mqtt_address = "none"
-            enable_httpserver = "True"
+            enable_httpserver = True
         else:
             client.loop_start()
             reader = Sensors()
     else:
-        enable_httpserver = "True"
+        enable_httpserver = True
 
-    if enable_httpserver == "True":
+    if enable_httpserver:
         SERVER_HOST = '0.0.0.0'
         SERVER_PORT = 7575
 
@@ -140,4 +143,5 @@ def main():
 
 
 if __name__ == "__main__":
+    load_dotenv()
     main()
