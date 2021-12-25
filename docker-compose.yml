@@ -2,8 +2,9 @@ version: '2'
 services:
   sensor:
     build: .
-    env_file:
-      - balena_max13856_defaults.env
+    environment:
+      - MAX13856_CS_PINS=["D5","D13"]
+      - TEMP_UNIT=F
     privileged: true
     labels:
       io.balena.features.kernel-modules: '1'

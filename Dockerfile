@@ -1,4 +1,4 @@
-FROM balenalib/%%BALENA_ARCH%%-debian-python:3.9-build as build
+FROM balenalib/raspberrypi4-64-debian-python:3.9-build as build
 
 RUN install_packages \
     python3-dev \
